@@ -1,0 +1,19 @@
+<div class="card" style="width: auto; height: 200px;">
+    <h5 class="card-title">Chronometer</h5>
+    <!-- <div class="card"> -->
+        <ul class="nav nav-pills nav-danger justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" [class.active]="tabActive === 'pomodoro'" (click)="changedTab('pomodoro')">Pomodoro</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="tabActive === 'shortBreak'" (click)="changedTab('shortBreak')">Short Break</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" [class.active]="tabActive === 'longBreak'" (click)="changedTab('longBreak')">Long Break</a>
+            </li>
+        </ul>
+    <!-- </div> -->
+    <div class="card-body">
+        <app-figure-chronometer #container [timeChronometer]="time" [optionName]="optionName" (name)="changedTab($event)"/>
+    </div>
+</div>
