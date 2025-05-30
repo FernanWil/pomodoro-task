@@ -5,11 +5,13 @@ import { BotonChronometerService } from '../../../shared/data-access/boton-chron
 import { FigureChronometerComponent } from "../../ui/figure-chronometer/figure-chronometer.component";
 import { ShortBreakChronometerComponent } from '../short-break-chronometer/short-break-chronometer.component';
 import { LongBreakChronometerComponent } from '../long-break-chronometer/long-break-chronometer.component';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 // CountdownComponent, ButtonComponent, 
 @Component({
     selector: 'app-chronometer',
-    imports: [FigureChronometerComponent],
+    imports: [FigureChronometerComponent, CommonModule],
     templateUrl: './chronometer.component.html',
     styleUrl: './chronometer.component.css'
 })
@@ -19,8 +21,10 @@ export class ChronometerComponent {
     tabActive: string = 'pomodoro';
     // @ViewChild('container', {read: ViewContainerRef, static: true}) container!: ViewContainerRef;
     // currentComponent: ComponentRef<any> | null = null;
-    pomodoroCount: number =1;
-    shortCount: number =0;
+    pomodoroCount: number = 1;
+    shortCount: number = 0;
+    longCount: number = 0;
+    private dataSubcription!: Subscription;
 
     constructor(private buttonService: BotonChronometerService){}
 
@@ -31,22 +35,31 @@ export class ChronometerComponent {
     }
 
     loadComponent(name: string){
-        // this.container.clear();
-        if (name === 'pomodoro') {
-            this.optionName = name;
-            this.time = 5; //1500
-            this.pomodoroCount += 1
-            console.log("Pomodoro: ",this.pomodoroCount);
-        }
-        if (name === 'shortBreak') {
-            this.optionName = name;
-            this.time = 5; // 300
-            this.shortCount += 1
-            console.log("Short: ",this.shortCount);
-        } 
-        if(name === 'longBreak') {
-            this.optionName = name;
-            this.time = 900;
-        }
+        if (this.dataSubcription) this.dataSubcription.unsubscribe();
+        if(name === 'pomodoro') this.loadComponentPomodoro(name);
+        if(name === 'shortBreak') this.loadComponentShortBreak(name);        
+        if(name === 'longBreak') this.loadComponentLongBreak(name);        
+    }
+
+    loadComponentPomodoro(name:string){
+        this.optionName = name;
+        this.dataSubcription = this.buttonService.getCountChronometer$.subscribe(() => this.pomodoroCount += 1);
+        this.time = 5; //1500
+    }
+
+    loadComponentShortBreak(name: string){
+        this.optionName = name;
+        this.time = 5; // 300
+        this.dataSubcription = this.buttonService.getCountChronometer$.subscribe(() => this.shortCount += 1);
+    }
+
+    loadComponentLongBreak(name:string){
+        this.optionName = name;
+        this.time = 900;
+        this.dataSubcription = this.buttonService.getCountChronometer$.subscribe(() => this.longCount += 1)
+    }
+
+    ngOnDestroy(){
+        if (this.dataSubcription) this.dataSubcription.unsubscribe();
     }
 }

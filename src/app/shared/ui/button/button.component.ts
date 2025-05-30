@@ -21,7 +21,7 @@ export class ButtonComponent {
     action: boolean = false;
     buttonInterval: any;
     private dataSubcription!: Subscription;
-    // buttonEvent: boolean = false;
+    private reset: any;
     
     constructor(private buttonService: BotonChronometerService){}
 
@@ -36,31 +36,41 @@ export class ButtonComponent {
     }
 
     startChronometer(cd: CountdownComponent) {
-        cd.begin()
+        if (cd) this.buttonService.sendCount(true);
+        // console.log(cd);
         this.message = 'Pause'
+        cd.begin()
         this.buttonInterval = setInterval(() => {
             if (this.getInfoCd.left > 0) this.getInfoCd.left--;
-            else this.resestChronometer(cd);
+            else {
+                this.resestChronometer(cd);
+                this.sendName();
+            }
         }, 1000);
     }
-
+    
     resestChronometer(cd: CountdownComponent){
         clearInterval(this.getInfoCd.left);
         this.message = 'Start';
-        cd.restart();
-        this.sendName();
+        this.reset = cd.restart();
     }
 
     pauseChronometer(cd: CountdownComponent) {
         cd.pause();
-        this.message = 'Resume'
+        this.message = 'Start'
         if (this.action) cd.resume();
     }
 
 	sendName(){
         this.action = !this.action;
-		if(this.optionName && this.optionName.includes('pomodoro')) this.namePassBreak.emit('shortBreak');
-		if(this.optionName && this.optionName.includes('shortBreak')) this.namePassBreak.emit('pomodoro');		
+		if(this.optionName && this.optionName.includes('pomodoro')) {
+            this.namePassBreak.emit('shortBreak');
+            console.log(this.reset);
+        }
+		if(this.optionName && this.optionName.includes('shortBreak')) {
+            this.namePassBreak.emit('pomodoro');
+            console.log(this.reset);
+        }
 		// if(this.optionName && this.optionName.includes('pomodoro')) this.namePassBreak.emit('longBreak');		
 	}
 
