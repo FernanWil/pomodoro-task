@@ -22,8 +22,8 @@ export class ChronometerComponent {
     // @ViewChild('container', {read: ViewContainerRef, static: true}) container!: ViewContainerRef;
     // currentComponent: ComponentRef<any> | null = null;
     pomodoroCount: number = 1;
-    shortCount: number = 0;
-    longCount: number = 0;
+    shortCount: number = 1;
+    longCount: number = 1;
     private dataSubcription!: Subscription;
 
     constructor(private buttonService: BotonChronometerService){}
@@ -42,7 +42,7 @@ export class ChronometerComponent {
     }
 
     loadComponentPomodoro(name:string){
-        this.optionName = name;
+        this.optionName = name;        
         this.dataSubcription = this.buttonService.getCountChronometer$.subscribe(() => this.pomodoroCount += 1);
         this.time = 5; //1500
     }

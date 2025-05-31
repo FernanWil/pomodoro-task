@@ -1,6 +1,21 @@
 <div class="card" style="width: auto; height: 200px;">
     <div class="card-body">
         <h5 class="card-title">Chronometer</h5>
-        <p class="card-text">HOLA</p>
+        @if (showButton) {
+        <button type="button" class="add-task-button" (click)="showInput()">Add taks</button>
+        }
+        @if (!showButton) {
+            <div class="card mb-3">
+                <div class="card-body text-success">
+                    <input type="text" class="inputStyle" placeholder="Write your task"/>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-end align-items-end">
+                        <button class="btn btn-danger me-3">Cancel</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>

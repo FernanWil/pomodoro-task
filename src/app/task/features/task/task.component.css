@@ -1,0 +1,22 @@
+.add-task-button{
+    box-shadow: inset -2px 1px 14px 3px rgba(0, 0, 0, .08);
+    --tw-border-opacity: 1;
+    border-radius: .75rem;
+    border: 2px dashed rgba(203, 213, 225, var(--tw-border-opacity));
+    display: block;
+    padding: .75rem;
+    text-align: center;
+    width: 100%;
+}
+
+.inputStyle{
+    border-radius: 4px;
+    font-size: 22px;
+    padding: 10px 0px;
+    box-shadow: none;
+    border: none;
+    color: rgb(85, 85, 85);
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: bold;
+}

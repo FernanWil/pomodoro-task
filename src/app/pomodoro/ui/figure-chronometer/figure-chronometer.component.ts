@@ -48,7 +48,6 @@ export class FigureChronometerComponent {
 	// }
 	getNamePassBreak(name: string){
 		this.name.emit(name)
-		// console.log(name);
 	}
 
 	handleEvent(e: CountdownEvent) {

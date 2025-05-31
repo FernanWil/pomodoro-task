@@ -39,12 +39,16 @@ export class ButtonComponent {
         if (cd) this.buttonService.sendCount(true);
         // console.log(cd);
         this.message = 'Pause'
-        cd.begin()
+        cd.begin();
+        this.resetButtonInterval(cd);
+    }
+
+    private resetButtonInterval(cd: CountdownComponent){
         this.buttonInterval = setInterval(() => {
             if (this.getInfoCd.left > 0) this.getInfoCd.left--;
             else {
-                this.resestChronometer(cd);
                 this.sendName();
+                this.resestChronometer(cd);
             }
         }, 1000);
     }
@@ -52,7 +56,7 @@ export class ButtonComponent {
     resestChronometer(cd: CountdownComponent){
         clearInterval(this.getInfoCd.left);
         this.message = 'Start';
-        this.reset = cd.restart();
+        cd.restart();
     }
 
     pauseChronometer(cd: CountdownComponent) {
@@ -63,14 +67,11 @@ export class ButtonComponent {
 
 	sendName(){
         this.action = !this.action;
-		if(this.optionName && this.optionName.includes('pomodoro')) {
-            this.namePassBreak.emit('shortBreak');
-            console.log(this.reset);
-        }
-		if(this.optionName && this.optionName.includes('shortBreak')) {
-            this.namePassBreak.emit('pomodoro');
-            console.log(this.reset);
-        }
+        this.message = 'Start'
+        if (this.cdButton)  this.cdButton.restart();
+		if(this.optionName && this.optionName.includes('pomodoro'))  this.namePassBreak.emit('shortBreak');
+		if(this.optionName && this.optionName.includes('shortBreak'))  this.namePassBreak.emit('pomodoro');
+        console.log(this.message);
 		// if(this.optionName && this.optionName.includes('pomodoro')) this.namePassBreak.emit('longBreak');		
 	}
 
