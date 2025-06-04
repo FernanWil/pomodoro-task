@@ -1,21 +1,28 @@
-<div class="card" style="width: auto; height: 200px;">
-    <div class="card-body">
-        <h5 class="card-title">Chronometer</h5>
-        @if (showButton) {
-        <button type="button" class="add-task-button" (click)="showInput()">Add taks</button>
-        }
-        @if (!showButton) {
-            <div class="card mb-3">
-                <div class="card-body text-success">
-                    <input type="text" class="inputStyle" placeholder="Write your task"/>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-end align-items-end">
-                        <button class="btn btn-danger me-3">Cancel</button>
-                        <button class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-            </div>
-        }
+<h4 class="mb-3">Task {{contTask}}</h4>
+@if (showButton) {
+<button type="button" class="add-task-button" (click)="showInput()">
+    Add taks
+</button>
+} @if (!showButton) {
+<div class="card">
+    <div class="card-body text-success">
+        <input #inputTask type="text" class="inputStyle" placeholder="Write your task" autofocus />
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-end align-items-end">
+            <button class="btn btn-danger me-3" (click)="cancelTask()">Cancel</button>
+            <button class="btn btn-primary" (click)="saveTask()">Save</button>
+        </div>
     </div>
 </div>
+} @for (i of task; track i) {
+<div class="alert alert-light mt-3 d-flex" [ngClass]="{'alert-dark': completeTask}">
+    <button type="button" class="buttonCheck" (click)="buttonCheckTask()"></button>
+    {{ i }}
+    <button class="buttonCheck p-2" type="button" data-bs-toggle="dropdown">...</button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item">Edit</a></li>
+        <li><a class="dropdown-item">Remove</a></li>
+    </ul>
+</div>
+}

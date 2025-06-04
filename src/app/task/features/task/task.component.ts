@@ -1,15 +1,37 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { take } from 'rxjs';
 
 @Component({
 	selector: 'app-task',
-	imports: [],
+	imports: [CommonModule],
 	templateUrl: './task.component.html',
 	styleUrl: './task.component.css'
 })
 export class TaskComponent {
+	@ViewChild('inputTask') inputTask!: ElementRef;
 	showButton: boolean = true;
+	task: string[] = [];
+	contTask: number = 0;
+	completeTask: boolean = false;
+
 	showInput(){
-		this.showButton = !this.showButton;
+		this.showButton = false;
 	}
-	addTask() { }
+	saveTask(){
+		if (this.inputTask.nativeElement.value && this.inputTask.nativeElement.value != '') {
+			this.task.push(this.inputTask.nativeElement.value);
+			this.contTask+=1;
+			this.showButton = true;
+		}
+		console.log(this.task);
+	}
+	cancelTask(){
+		this.showButton = true;
+	}
+
+	buttonCheckTask() {
+		console.log("HOLA");
+		this.completeTask = ! this.completeTask
+	}
 }
