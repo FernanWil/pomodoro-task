@@ -15,14 +15,37 @@
         </div>
     </div>
 </div>
-} @for (i of task; track i) {
-<div class="alert alert-light mt-3 d-flex" [ngClass]="{'alert-dark': completeTask}">
-    <button type="button" class="buttonCheck" (click)="buttonCheckTask()"></button>
-    {{ i }}
-    <button class="buttonCheck p-2" type="button" data-bs-toggle="dropdown">...</button>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item">Edit</a></li>
-        <li><a class="dropdown-item">Remove</a></li>
-    </ul>
+} @for (i of task; track i) { <!-- [ngClass]="{'alert-dark': completeTask}" -->
+<div class="alert alert-light mt-3" (mouseenter)="onMouseEnter($index)" (mouseleave)="onMouseLeave()">
+    <div class="container">
+        <div class="row">
+            <div class="col-8 align-items-center d-flex">
+                <span role="button" class="lets-icons--check-fill" (click)="buttonCheckTask()"></span>
+                {{ i }}
+                @if(inputVisible){
+                    <input #inputTask type="text" class="inputStyle" placeholder="Write your task" autofocus />
+                }
+            </div>
+            @if (onButtonIndex == $index) {
+            <div class="col-4 align-items-end justify-content-end d-flex">
+                <span role="button" class="mingcute--more-4-fill" data-bs-toggle="dropdown"></span>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a role="button" class="dropdown-item d-flex align-items-center" (click)="editTask($index)">
+                            <span class="tdesign--edit me-2"></span>
+                            Edit
+                        </a>
+                    </li>
+                    <li class="mt-2">
+                        <a role="button" class="dropdown-item d-flex align-items-cente" (click)="removeTask($index)">
+                            <span class="pajamas--remove me-2"></span>
+                            Remove
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+        </div>
+    </div>
 </div>
 }

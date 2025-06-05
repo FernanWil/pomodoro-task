@@ -14,6 +14,8 @@ export class TaskComponent {
 	task: string[] = [];
 	contTask: number = 0;
 	completeTask: boolean = false;
+	onButtonIndex: number | null = null;
+	inputVisible: boolean = false;
 
 	showInput(){
 		this.showButton = false;
@@ -33,5 +35,24 @@ export class TaskComponent {
 	buttonCheckTask() {
 		console.log("HOLA");
 		this.completeTask = ! this.completeTask
+	}
+
+	onMouseEnter(index: number){ this.onButtonIndex = index; }
+	onMouseLeave(){ this.onButtonIndex = null; }
+
+	editTask(index: number){
+		if (index >= 0) {
+			this.inputVisible = true;
+			const newInput = this.inputTask?.nativeElement.focus();
+			setTimeout(() => {
+				this.task.splice(index, 1,newInput);
+			});
+		}		
+	}
+
+	removeTask(id: number){
+		if (id) {
+			this.task.splice(id,1);
+		}
 	}
 }
