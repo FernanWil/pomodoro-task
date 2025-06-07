@@ -15,15 +15,21 @@
         </div>
     </div>
 </div>
-} @for (i of task; track i) { <!-- [ngClass]="{'alert-dark': completeTask}" -->
+} @for (i of task; track $index) {
 <div class="alert alert-light mt-3" (mouseenter)="onMouseEnter($index)" (mouseleave)="onMouseLeave()">
     <div class="container">
         <div class="row">
-            <div class="col-8 align-items-center d-flex">
+            <div class="col-8 align-items-center d-flex bg-danger">
                 <span role="button" class="lets-icons--check-fill" (click)="buttonCheckTask()"></span>
-                {{ i }}
-                @if(inputVisible){
-                    <input #inputTask type="text" class="inputStyle" placeholder="Write your task" autofocus />
+                @if(inputVisible && onButtonIndex == $index){
+                    <input #inputTask [value]="valueInputTask" type="text" class="inputStyle"
+                    (input)="showNewValueInput($event)" autofocus />
+                }@else{
+                    @if (completeTask && onButtonIndex == $index) {
+                        <p style="text-decoration: line-through; text-align: center;">{{ i.task }}</p>
+                    }@else {
+                        <p style="text-align: end;">{{ i.task }}</p>
+                    }
                 }
             </div>
             @if (onButtonIndex == $index) {
@@ -37,14 +43,22 @@
                         </a>
                     </li>
                     <li class="mt-2">
-                        <a role="button" class="dropdown-item d-flex align-items-cente" (click)="removeTask($index)">
+                        <a role="button" class="dropdown-item d-flex align-items-center" (click)="removeTask($index)">
                             <span class="pajamas--remove me-2"></span>
                             Remove
                         </a>
                     </li>
+                    @if (inputFocus) {
+                    <li class="mt-2">
+                        <a role="button" class="dropdown-item d-flex align-items-center" (click)="saveTaskEdit($index)">
+                            <span class="material-symbols--save-outline-rounded"></span>
+                            Save
+                        </a>
+                    </li>
+                    }
                 </ul>
             </div>
-        }
+            }
         </div>
     </div>
 </div>
